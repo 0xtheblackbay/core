@@ -1,17 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-//Default endpoints (MS Information)
-const aboutRouter = require("./routes/about");
-const readmeRouter = require("./routes/readme");
-const changelogRouter = require("./routes/changelog");
-//MS logic
+const createWalletRouter = require("./routes/createWallet");
+const restoreWalletRouter = require("./routes/restoreWallet");
+const randomMnemonicRouter = require("./routes/randomMnemonic");
+const validateMnemonicRouter = require("./routes/validateMnemonic");
 
-//initialise logging
 const log4js = require("log4js");
-const log = log4js.getLogger("server-startup");
+const log = log4js.getLogger("core-startup");
 
-// Initialize log
 log4js.configure({
     appenders: {
         console: { type: "console" },
@@ -21,32 +18,30 @@ log4js.configure({
     }
 });
 
-const secEnv = require('./utils/secureEnv.js');
-const GENERATOR_ADDRESS = process.argv.slice(2).toString();
-
+GENERATOR_ADDRESS = process.argv.slice(2).toString();
 configFileDetails = require("./utils/configEnv.js").getConfigFile('./.config');
 
 try {
 
-    global.env = secEnv.secureEnvironment(GENERATOR_ADDRESS);
+    SEED = require('./utils/secureEnv.js').secureEnvironment(GENERATOR_ADDRESS).SEED;
 
     HOSTNAME = configFileDetails.HOSTNAME;
     PORT = configFileDetails.SERVICE_PORT;
+    ACCOUNTS = configFileDetails.NUMBER_OF_ACCOUNTS;
+    ENTROPY = configFileDetails.TWELVE_WORDS;
 
     const app = express();
-    app.use(express.static("client")); //include static content on folder ./client
 
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    // Resources definition
     app.use(express.json());
-    app.use("/about", aboutRouter);
-    app.use("/readme", readmeRouter);
-    app.use("/changelog", changelogRouter);
+    app.use("/createWallet", createWalletRouter);
+    app.use("/restoreWallet", restoreWalletRouter);
+    app.use("/randomMnemonic", randomMnemonicRouter);
+    app.use("/validateMnemonic", validateMnemonicRouter);
 
-    // Start MS
     app.listen(PORT, HOSTNAME, () => {
-        log.info(`Server running at ${HOSTNAME}:${PORT}`)
+        log.info(`listening on ${HOSTNAME}:${PORT}...`)
     })
 
 } catch (e) {
