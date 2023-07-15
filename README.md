@@ -81,13 +81,13 @@ tbb@tbb:~/git/tbb/core>
 - Verify a Mnemonic:
 
 ```sh
-bbrujas@bbrujas:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/validateMnemonic' \
+tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/validateMnemonic' \
 > --header 'Content-Type: application/x-www-form-urlencoded' \
 > --data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew'
 
 true
 
-bbrujas@bbrujas:~/git/tbb/core>
+tbb@tbb:~/git/tbb/core>
 ```
 
 ### postman
