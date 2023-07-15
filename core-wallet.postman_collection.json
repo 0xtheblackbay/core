@@ -48,6 +48,48 @@
 			"response": []
 		},
 		{
+			"name": "checkWalletBalances",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mySeed",
+							"value": "{{SEED}}",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/checkWalletBalances",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"checkWalletBalances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "restoreWallet",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true

@@ -24,9 +24,14 @@ The current branch **feature/wallet**, code-name *code-wallet*, is a loosy imple
 
 *core-wallet* services the following resources:
 
-- **/createAccounts**: Returns the NUMBER_OF ACCOUNTS that the **mnemonic** passed as parameter could generate. Returns *Invalid seed provided.* in case of incorrect values.
+- **/createWallet**: Returns the NUMBER_OF ACCOUNTS that the **mnemonic** passed as parameter could generate. Returns *Invalid seed provided.* in case of incorrect values.
+
+- **/checkWalletBalances**: Returns the NUMBER_OF ACCOUNTS, with BALANCES, that the **mnemonic** passed as parameter could generate. Returns *Invalid seed provided.* in case of incorrect values.
+
 - **/randomMnemonic**: Returns a BIP compliant mnemonic with the Entropy configured at MS startup.
+
 - **/restoreWallet**: Returns the NUMBER_OF ACCOUNTS that the **mnemonic** stored in the ENV file could generate. Returns *Invalid seed provided.* if unable to open the SEED phrase or it is empty.
+
 - **/validateMnemonic**: Checks if the **mnemonic** passed as parameter is BIP39 compliant.
 
 ## interacting with *core-wallet*
@@ -53,6 +58,14 @@ tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/restoreWallet'
 {"seed":"derive salt valve record strategy rigid develop category crack pink ribbon suit","accounts":[{"id":0,"address":"0x405EF6786A70C131bf17DFfE7955389D977C8853","privateKey":"0xdf59e06dcf2b9ea74d861e31e1886030765969d1dab454a53152882153ad6244"},{"id":1,"address":"0x3953aFbC59cF8C279b603454529C3DF27E01C57C","privateKey":"0x17084e1502b4f3cff5839815af859fc86cbb843fa47b0e9aa7591f7cc14d6805"},{"id":2,"address":"0xc4F6d4395D2EE5bAAd030945f9596B66dc058e8B","privateKey":"0x48887513fb464017332fe539cfd68efa1bea524f74914a4ccc9ad42f94d1b2ad"}]}
 
 tbb@tbb:~/git/tbb/core> 
+```
+- Explore balances of a wallet:
+
+```sh
+curl --location 'http://127.0.0.1:8080/checkWalletBalances' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew'
+{"seed":"jump toilet torch toddler clog fish nation pool talent episode extra tag","accounts":[{"id":0,"address":"0x1F5e96A5DEC4bF4D95Dd126066DB02651EC8E512","privateKey":"0xf219a1922eea9c7161874a266c47dfb0a288dc4be6ba9ee2f3f61284d83009e3","balance":"0"},{"id":1,"address":"0xFe26f8a16D8DfAD637e210191b7e1f9B7fb3c3B3","privateKey":"0x37807c54d9aebb141a4550dbe267e187be7874ab3dbba227b3a27ac5372959ac","balance":"0"},{"id":2,"address":"0xE80BB554955517A5dEA106A27AA4E50D2006bE6B","privateKey":"0x778c7e29057e8f5be2333ff8a09153dcbdf012ee40d52f96c5f8711d3363b07f","balance":"0"}]}
 ```
 
 - Generate a random Mnemonic:
@@ -98,6 +111,7 @@ SERVICE_PORT=8080
 NUMBER_OF_ACCOUNTS=3
 TWELVE_WORDS=16
 TWENTYFOUR_WORDS=32
+HTTP_PROVIDER_URL="https://api.etherscan.io/api/"
 ```
 
 where:
@@ -110,11 +124,15 @@ where:
 
 - **TWELVE_WORDS** & **TWENTYFOUR_WORDS** are the specific values to set to the ENTROPY at the MS startup to process 12 or 24 words mnemonics respectively.
 
+- **HTTP_PROVIDER_URL** is he URL to your preferred HTTP RPC Provider details.
+
 ### environment file
 
-For the *core-wallet* implementation, the `.env` file to encrypt requires a SEED="string" value as per provided in the sample `env` file:
+For the *core-wallet* implementation, the `.env` file to encrypt requires a SEED="string" and an API_KEY values as per provided in the sample `env` file:
+
 ```toml
 SEED="your_phrase_goes_here"
+ETHERSCAN_API_KEY="your_etherscan_api_key_goes_here"
 ```
 
 > @Dev: Please refer to [secure your environment](#secure-your-environment) to get more details on how to implement this.
@@ -159,6 +177,7 @@ cd core
 tree -a ./
 ./
 ├── routes
+│   ├── checkWalletBalances.js
 │   ├── createWallet.js
 │   ├── randomMnemonic.js
 │   ├── restoreWallet.js
@@ -167,6 +186,7 @@ tree -a ./
 │   ├── configEnv.js
 │   ├── create-script.js
 │   ├── deterministic.js
+│   ├── onchain.js
 │   ├── restore-script.js
 │   └── secureEnv.js
 ├── .config
