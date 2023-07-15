@@ -17,17 +17,24 @@ const createWallet = express.Router();
 createWallet.post("/", (req, res) => {
 
     let myResponse = {}
-    myResponse.seed=req.body.mySeed;
+    myResponse.seed = req.body.mySeed;
 
-    if ((typeof myResponse.seed === 'string' || myResponse.seed instanceof String) && (myResponse.seed.trim().split(/\s+/g).length >= 12) && (require('bip39').validateMnemonic(myResponse.seed))){
+    if ((typeof myResponse.seed === 'string' || myResponse.seed instanceof String) && (myResponse.seed.trim().split(/\s+/g).length >= 12) && (require('bip39').validateMnemonic(myResponse.seed))) {
 
-        myResponse.accounts=require('../utils/deterministic').create(myResponse.seed, ACCOUNTS);
-        res.send(myResponse);
+        let wallet = require('../utils/deterministic');
+        try {
+            myResponse.accounts = wallet.create(myResponse.seed, ACCOUNTS);
+        } catch (error) {
+            log.error(error);
+            myResponse.accounts = "there was a problem retrieving the accounts";
+        } finally {
+            res.send(myResponse);
+        };
 
-    }else{
+    } else {
 
         log.error(`Invalid seed provided (${myResponse.seed}).`)
-        res.send(`Invalid seed provided (${myResponse.seed}).`);   
+        res.send(`Invalid seed provided (${myResponse.seed}).`);
 
     }
 

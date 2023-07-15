@@ -43,8 +43,7 @@ The current branch **feature/wallet**, code-name *code-wallet*, is a loosy imple
 ```sh
 tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/createWallet' \
 > --header 'Content-Type: application/x-www-form-urlencoded' \
-> --data-urlencode 'mySeed=jump toilet torch toddler clog fish nation pool talent episode extra tag'
-
+> --data-urlencode 'mySeed=jump toilet torch toddler clog fish nation pool talent episode extra tag' 
 
 {"seed":"jump toilet torch toddler clog fish nation pool talent episode extra tag","accounts":[{"id":0,"address":"0x1F5e96A5DEC4bF4D95Dd126066DB02651EC8E512","privateKey":"0xf219a1922eea9c7161874a266c47dfb0a288dc4be6ba9ee2f3f61284d83009e3"},{"id":1,"address":"0xFe26f8a16D8DfAD637e210191b7e1f9B7fb3c3B3","privateKey":"0x37807c54d9aebb141a4550dbe267e187be7874ab3dbba227b3a27ac5372959ac"},{"id":2,"address":"0xE80BB554955517A5dEA106A27AA4E50D2006bE6B","privateKey":"0x778c7e29057e8f5be2333ff8a09153dcbdf012ee40d52f96c5f8711d3363b07f"}]}
 
@@ -54,8 +53,7 @@ tbb@tbb:~/git/tbb/core>
 - Restore saved Wallet:
 
 ```sh
-tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/restoreWallet'
-
+tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/restoreWallet' 
 
 {"seed":"derive salt valve record strategy rigid develop category crack pink ribbon suit","accounts":[{"id":0,"address":"0x405EF6786A70C131bf17DFfE7955389D977C8853","privateKey":"0xdf59e06dcf2b9ea74d861e31e1886030765969d1dab454a53152882153ad6244"},{"id":1,"address":"0x3953aFbC59cF8C279b603454529C3DF27E01C57C","privateKey":"0x17084e1502b4f3cff5839815af859fc86cbb843fa47b0e9aa7591f7cc14d6805"},{"id":2,"address":"0xc4F6d4395D2EE5bAAd030945f9596B66dc058e8B","privateKey":"0x48887513fb464017332fe539cfd68efa1bea524f74914a4ccc9ad42f94d1b2ad"}]}
 
@@ -64,18 +62,19 @@ tbb@tbb:~/git/tbb/core>
 - Explore balances of a wallet:
 
 ```sh
-curl --location 'http://127.0.0.1:8080/checkWalletBalances' \
+tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/checkWalletBalances' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew'
-
+--data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew' 
 
 {"seed":"jump toilet torch toddler clog fish nation pool talent episode extra tag","accounts":[{"id":0,"address":"0x1F5e96A5DEC4bF4D95Dd126066DB02651EC8E512","privateKey":"0xf219a1922eea9c7161874a266c47dfb0a288dc4be6ba9ee2f3f61284d83009e3","balance":"0"},{"id":1,"address":"0xFe26f8a16D8DfAD637e210191b7e1f9B7fb3c3B3","privateKey":"0x37807c54d9aebb141a4550dbe267e187be7874ab3dbba227b3a27ac5372959ac","balance":"0"},{"id":2,"address":"0xE80BB554955517A5dEA106A27AA4E50D2006bE6B","privateKey":"0x778c7e29057e8f5be2333ff8a09153dcbdf012ee40d52f96c5f8711d3363b07f","balance":"0"}]}
+
+tbb@tbb:~/git/tbb/core> 
 ```
 
 - Generate a random Mnemonic:
 
 ```sh
-tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/randomMnemonic'
+tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/randomMnemonic' 
 
 process book volcano flash cost film eagle diesel soldier exile talent audit
 
@@ -87,7 +86,7 @@ tbb@tbb:~/git/tbb/core>
 ```sh
 tbb@tbb:~/git/tbb/core> curl --location 'http://127.0.0.1:8080/validateMnemonic' \
 > --header 'Content-Type: application/x-www-form-urlencoded' \
-> --data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew'
+> --data-urlencode 'mySeed=field jeans pulse motor gold else rally time argue muffin vote crew' 
 
 true
 
