@@ -15,18 +15,16 @@ log4js.configure({
 const validateMnemonic = express.Router();
 
 validateMnemonic.post("/", (req, res) => {
-    
-    let seed=req.body.mySeed;
 
-    if ((typeof seed === 'string' || seed instanceof String) && (seed.trim().split(/\s+/g).length >= 12)){
+    let seed = req.body.mySeed;
+    let response = `Invalid SEED provided (${seed}).`;
+    const deterministic = require('../utils/deterministic');
 
-        res.send(require('bip39').validateMnemonic(seed))
-
-    }else{
-
-        res.send("Invalid seed provided.");   
-
+    if (deterministic.validateMnemonic(seed)){
+        response = `The SEED is valid (${seed}).`;
     }
+
+    res.send(response);
 
 })
 

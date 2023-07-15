@@ -19,7 +19,16 @@ const randomMnemonic = express.Router();
 
 randomMnemonic.get("/", (req, res) => {
 
-    res.send(require('../utils/deterministic').randomMnemonic(ENTROPY));
+    let myResponse;
+    const deterministic = require('../utils/deterministic');
+    try {
+        myResponse = deterministic.randomMnemonic(ENTROPY);
+    } catch (error) {
+        log.error(error);
+        myResponse = "there was a problem generating the mnemonic, please check ENTROPY in properly configured.";
+    } finally {
+        res.send(myResponse);
+    };
 
 })
 

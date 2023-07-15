@@ -18,16 +18,23 @@ restoreWallet.get("/", (req, res) => {
 
     let myResponse = {}
     myResponse.seed=SEED;
+    const deterministic = require('../utils/deterministic');
 
-    if ((typeof myResponse.seed === 'string' || myResponse.seed instanceof String) && (myResponse.seed.trim().split(/\s+/g).length >= 12) && (require('bip39').validateMnemonic(myResponse.seed))){
+    if (deterministic.validateMnemonic(myResponse.seed)) {
 
-        myResponse.accounts=require('../utils/deterministic').create(myResponse.seed, ACCOUNTS);
-        res.send(myResponse);
+        try {
+            myResponse.accounts = deterministic.create(myResponse.seed, ACCOUNTS);
+        } catch (error) {
+            log.error(error);
+            myResponse.accounts = "there was a problem retrieving the accounts, check SEED.";
+        } finally {
+            res.send(myResponse);
+        };
 
-    }else{
+    } else {
 
         log.error(`Invalid seed provided (${myResponse.seed}).`)
-        res.send(`Invalid seed provided (${myResponse.seed}).`);   
+        res.send(`Invalid seed provided (${myResponse.seed}).`);
 
     }
 

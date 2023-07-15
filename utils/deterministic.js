@@ -11,8 +11,14 @@ log4js.configure({
     }
 });
 
-function randomMnemonic(entropy){
+function randomMnemonic(entropy) {
     return require('bip39').entropyToMnemonic(require('node:crypto').randomBytes(entropy).toString('hex'))
+}
+
+function validateMnemonic(seed) {
+    return ((typeof seed === 'string' || seed instanceof String)
+        && (seed.trim().split(/\s+/g).length >= 12)
+        && (require('bip39').validateMnemonic(seed)))
 }
 
 function create(seed, accounts) {
@@ -57,5 +63,6 @@ async function explore(seed, accounts) {
 module.exports = {
     create,
     explore,
-    randomMnemonic
+    randomMnemonic,
+    validateMnemonic
 }

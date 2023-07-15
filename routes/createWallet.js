@@ -18,15 +18,15 @@ createWallet.post("/", (req, res) => {
 
     let myResponse = {}
     myResponse.seed = req.body.mySeed;
+    const deterministic = require('../utils/deterministic');
 
-    if ((typeof myResponse.seed === 'string' || myResponse.seed instanceof String) && (myResponse.seed.trim().split(/\s+/g).length >= 12) && (require('bip39').validateMnemonic(myResponse.seed))) {
+    if (deterministic.validateMnemonic(myResponse.seed)) {
 
-        let wallet = require('../utils/deterministic');
         try {
-            myResponse.accounts = wallet.create(myResponse.seed, ACCOUNTS);
+            myResponse.accounts = deterministic.create(myResponse.seed, ACCOUNTS);
         } catch (error) {
             log.error(error);
-            myResponse.accounts = "there was a problem retrieving the accounts";
+            myResponse.accounts = "there was a problem retrieving the accounts, check provided seed.";
         } finally {
             res.send(myResponse);
         };

@@ -18,16 +18,16 @@ checkWalletBalances.post("/", (req, res) => {
 
     let myResponse = {}
     myResponse.seed = req.body.mySeed;
+    const deterministic = require('../utils/deterministic');
 
-    if ((typeof myResponse.seed === 'string' || myResponse.seed instanceof String) && (myResponse.seed.trim().split(/\s+/g).length >= 12) && (require('bip39').validateMnemonic(myResponse.seed))) {
+    if (deterministic.validateMnemonic(myResponse.seed)) {
 
-        let wallet = require('../utils/deterministic');
-        wallet.explore(myResponse.seed, ACCOUNTS)
+        deterministic.explore(myResponse.seed, ACCOUNTS)
             .then(response => {
                 myResponse.accounts = response;
             }).catch(function (error) {
                 log.error(error);
-                myResponse.accounts = "there weas a problem retrieving the accounts";
+                myResponse.accounts = "there was a problem retrieving the accounts";
             }).finally(() => {
                 res.send(myResponse);
             });
