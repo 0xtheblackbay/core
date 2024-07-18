@@ -19,19 +19,20 @@ log4js.configure({
     }
 });
 
-GENERATOR_ADDRESS = process.argv.slice(2).toString();
-configFileDetails = require("./utils/configEnv.js").getConfigFile('./.config');
-
 try {
 
-    SEED = require('./utils/secureEnv.js').secureEnvironment(GENERATOR_ADDRESS).SEED;
-    ETHERSCAN_API_KEY = require('./utils/secureEnv.js').secureEnvironment(GENERATOR_ADDRESS).ETHERSCAN_API_KEY;
+    const GENERATOR_ADDRESS = process.env.MS_SECRET || process.argv.slice(2).toString();
+    const CONFIG_FILE = process.env.CONFIG_FILE || '.config';
 
-    HOSTNAME = configFileDetails.HOSTNAME;
-    PORT = configFileDetails.SERVICE_PORT;
-    ACCOUNTS = configFileDetails.NUMBER_OF_ACCOUNTS;
-    ENTROPY = configFileDetails.TWELVE_WORDS;
-    HTTP_PROVIDER_URL = configFileDetails.HTTP_PROVIDER_URL;
+    const config = require("./utils/configEnv.js").getConfigFile(CONFIG_FILE);
+    
+    ENC_ENV_PATH = config.ENC_ENV_PATH || process.env.ENC_ENV_PATH;
+    HOSTNAME = config.HOSTNAME || process.env.HOSTNAME;
+    MS_ID = config.MS_ID || process.env.MS_ID;
+    PORT = config.PORT || process.env.PORT;
+
+    global.env = require('./utils/secureEnv.js').secureEnvironment(GENERATOR_ADDRESS, ENC_ENV_PATH);
+    log.debug(global.env);
 
     const app = express();
 
@@ -45,7 +46,7 @@ try {
     app.use("/validateMnemonic", validateMnemonicRouter);
 
     app.listen(PORT, HOSTNAME, () => {
-        log.info(`listening on ${HOSTNAME}:${PORT}...`)
+        log.info(`${MS_ID} running at ${HOSTNAME}:${PORT}`)
     })
 
 } catch (e) {

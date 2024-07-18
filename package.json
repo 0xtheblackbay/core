@@ -13,6 +13,7 @@
   "scripts": {
     "check-env": "node -e 'console.log(process.env)' | grep npm",
     "generate-env": "secure-env .env -s ",
+    "decrypt-env": "secure-env --decrypt .env.enc -s ",
     "dev-restore": "nodemon utils/restore-script.js",
     "dev-create": "nodemon utils/create-script.js",
     "restore": "node utils/restore-script.js",

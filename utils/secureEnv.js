@@ -17,7 +17,7 @@ log4js.configure({
 });
 
 //function used to unencrypt .env.enc environment file and have it added to process.env
-function secureEnvironment(GeneratorAddress){
+function secureEnvironment(GeneratorAddress, Path){
 
   if ((!GeneratorAddress) || (typeof GeneratorAddress === 'undefined')){
   //error on no GeneratorAddress passed
@@ -26,8 +26,8 @@ function secureEnvironment(GeneratorAddress){
       "Please provide credentials to decrypt the secure env file.",
     );
   }else{
-    const secureEnv = require('secure-env');
-    return secureEnv({ secret: GeneratorAddress });
+    const secureEnv = require('secure-env')({ secret: GeneratorAddress, path: Path});
+    return secureEnv;
   }
 }
 
