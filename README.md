@@ -147,6 +147,8 @@ ETHERSCAN_API_KEY="your_etherscan_api_key_goes_here"
 ```json
   "dependencies": {
     "axios": "^1.3.4",
+    "bip39": "^3.1.0",
+    "ethers": "^6.13.1",
     "express": "^4.18.2",
     "fs-extra": "^10.1.0",
     "log4js": "^6.4.1",
@@ -156,7 +158,7 @@ ETHERSCAN_API_KEY="your_etherscan_api_key_goes_here"
     "toml": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.1.4"
   }
 ```
 
