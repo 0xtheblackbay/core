@@ -28,7 +28,7 @@ try {
   for (let i = 0; i < numberOfAccounts; i++) {
 
     const path = "m/44'/60'/0'/0/" + i;
-    const wallet = ethers.Wallet.fromMnemonic(mnemonic, path);
+    const wallet = ethers.Wallet.fromPhrase(mnemonic, path);
 
     log.debug(`Account ${i} details:\r\n Public Address: ${wallet.address}\r\n Private Key: ${wallet.privateKey}`);
 

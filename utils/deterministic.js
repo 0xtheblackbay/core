@@ -28,7 +28,7 @@ function create(seed, accounts) {
     for (let i = 0; i < accounts; i++) {
 
         let path = "m/44'/60'/0'/0/" + i;
-        let wallet = ethers.Wallet.fromMnemonic(seed, path);
+        let wallet = ethers.Wallet.fromPhrase(seed, path);
         let account = {};
         account.id = i;
         account.address = wallet.address;
@@ -47,7 +47,7 @@ async function explore(seed, accounts) {
     for (let i = 0; i < accounts; i++) {
 
         let path = "m/44'/60'/0'/0/" + i;
-        let wallet = ethers.Wallet.fromMnemonic(seed, path);
+        let wallet = ethers.Wallet.fromPhrase(seed, path);
         let account = {};
         account.id = i;
         account.address = wallet.address;
